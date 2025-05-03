@@ -1,6 +1,7 @@
 import subprocess
 import time
 import requests
+import os
 
 # Start the Flask server
 flask = subprocess.Popen(["python3", "app.py"])
@@ -12,7 +13,7 @@ print("Started ngrok... waiting for public URL.")
 
 # Wait until the public ngrok URL is available
 ngrok_url = ""
-for _ in range(30):  # Retry for up to ~30 seconds
+for _ in range(30):
     try:
         response = requests.get("http://localhost:4040/api/tunnels", timeout=2).json()
         ngrok_url = response['tunnels'][0]['public_url']
@@ -20,14 +21,14 @@ for _ in range(30):  # Retry for up to ~30 seconds
     except Exception:
         time.sleep(1)
 
-# Write the ngrok URL to a file or report failure
+# If we got a valid URL, update local files and push to GitHub
 if ngrok_url.startswith("http"):
-    with open("/home/danielmarx/Desktop/CodeStuff/ngrok_url.txt", "w") as f:
+    # Write to local file
+    with open("ngrok_url.txt", "w") as f:
         f.write(ngrok_url + "\n")
-    print(f"Ngrok URL: {ngrok_url}")
 
-    # Also write to GitHub index.html for global redirect
-    with open("/home/danielmarx/Desktop/CodeStuff/index.html", "w") as f:
+    # Update GitHub index.html for redirect
+    with open("index.html", "w") as f:
         f.write(f"""<!DOCTYPE html>
 <html>
   <head>
@@ -35,13 +36,13 @@ if ngrok_url.startswith("http"):
   </head>
 </html>
 """)
-
-    # Commit and push the new index.html to GitHub
-    subprocess.run(["git", "-C", "/home/danielmarx/Desktop/CodeStuff", "add", "index.html"])
-    subprocess.run(["git", "-C", "/home/danielmarx/Desktop/CodeStuff", "commit", "-m", "Update index.html with new ngrok URL"])
-    subprocess.run(["git", "-C", "/home/danielmarx/Desktop/CodeStuff", "push"])
+    # Git add, commit, and push
+    subprocess.run(["git", "add", "ngrok_url.txt", "index.html"])
+    subprocess.run(["git", "commit", "-m", "Update index.html with new ngrok URL"])
+    subprocess.run(["git", "push"])
+    print(f"✅ Ngrok URL updated and pushed: {ngrok_url}")
 else:
-    print("❌ Failed to get ngrok URL after waiting.")
+    print("❌ Failed to retrieve ngrok URL.")
 
 # Keep the service alive
 try:
