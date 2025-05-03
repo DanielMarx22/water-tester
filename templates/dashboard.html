@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Water Tester GUI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: white;
+      color: black;
+    }
+    .dark-mode {
+      background-color: #121212;
+      color: white;
+    }
+    .pump {
+      margin-bottom: 20px;
+    }
+    .status {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      margin-left: 10px;
+    }
+    .status.on {
+      background-color: green;
+    }
+    .status.off {
+      background-color: red;
+    }
+    .theme-toggle, .stirrer-toggle, .mg-test {
+      margin-bottom: 20px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+
+  <div id="pumps"></div>
+
+  <button class="stirrer-toggle" onclick="toggleStirrer()">Toggle Stirrer</button>
+
+  <button class="mg-test" onclick="runMgTest()">Run Mg Test</button>
+
+  <div class="pump">
+    <label>Mg Test Status:</label>
+    <span id="mgtest-status" class="status off"></span>
+  </div>
+
+  <script>
+    const pumpCount = 6;
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    function createPumpControl(index) {
+      const div = document.createElement("div");
+      div.className = "pump";
+      div.innerHTML = `
+        <label>Pump ${index + 1} duration (sec): </label>
+        <input type="number" id="time${index}" min="1" placeholder="Leave blank for ON/OFF" />
+        <button onclick="togglePump(${index})">Activate</button>
+        <span id="status${index}" class="status off"></span>
+      `;
+      return div;
+    }
+
+    function updateStatus(index, state) {
+      const statusEl = document.getElementById("status" + index);
+      if (state === "on") {
+        statusEl.classList.add("on");
+        statusEl.classList.remove("off");
+      } else {
+        statusEl.classList.remove("on");
+        statusEl.classList.add("off");
+      }
+    }
+
+    function togglePump(index) {
+      const time = document.getElementById("time" + index).value;
+      fetch("/toggle_pump/" + index, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ time: time })
+      })
+      .then(res => res.json())
+      .then(data => updateStatus(index, data.status));
+    }
+
+    function toggleStirrer() {
+      fetch("/toggle_stirrer", { method: "POST" })
+        .then(res => res.json())
+        .then(data => {
+          console.log("Stirrer status: " + data.status);
+        });
+    }
+
+    function runMgTest() {
+      fetch("/mg_test", { method: "POST" });
+    }
+
+    function fetchStatus() {
+      fetch("/status")
+        .then(res => res.json())
+        .then(data => {
+          for (let i = 0; i < pumpCount; i++) {
+            updateStatus(i, data[i]);
+          }
+          // Stirrer status (currently no light but logged)
+          console.log("Stirrer status: " + data[pumpCount]);
+          // Mg Test status
+          updateMgTestStatus(data[pumpCount + 1]);
+        });
+    }
+
+    function updateMgTestStatus(state) {
+      const mgTestStatusEl = document.getElementById("mgtest-status");
+      if (state === "running") {
+        mgTestStatusEl.style.backgroundColor = "blue";
+      } else {
+        mgTestStatusEl.style.backgroundColor = "red";
+      }
+    }
+
+    window.onload = () => {
+      const pumpsDiv = document.getElementById("pumps");
+      for (let i = 0; i < pumpCount; i++) {
+        pumpsDiv.appendChild(createPumpControl(i));
+      }
+      fetchStatus();
+      setInterval(fetchStatus, 3000);
+    };
+  </script>
+</body>
+</html>
