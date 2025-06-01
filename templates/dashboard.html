@@ -7,12 +7,30 @@
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      background-color: white;
-      color: black;
-    }
-    .dark-mode {
+      margin: 0;
       background-color: #121212;
       color: white;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    .tab-button {
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #333;
+      border: none;
+      color: white;
+      margin-right: 5px;
+    }
+    .tab-button.active {
+      background-color: #555;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
     }
     .pump {
       margin-bottom: 20px;
@@ -30,32 +48,51 @@
     .status.off {
       background-color: red;
     }
-    .theme-toggle, .stirrer-toggle, .mg-test {
-      margin-bottom: 20px;
+    button {
       padding: 6px 12px;
+      margin-right: 10px;
+      margin-top: 10px;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  <div class="tabs">
+    <button class="tab-button active" onclick="showTab('dashboard')">Dashboard</button>
+    <button class="tab-button" onclick="showTab('controls')">Controls</button>
+    <button class="tab-button" onclick="showTab('measurements')">Measurements</button>
+  </div>
 
-  <div id="pumps"></div>
+  <div id="dashboard" class="tab-content active">
+    <button onclick="runAlkTest()">Run Alk Test</button>
+    <button onclick="runCaTest()">Run Ca Test</button>
+    <button onclick="runMgTest()">Run Mg Test</button>
+    <div class="pump">
+      <label>Mg Test Status:</label>
+      <span id="mgtest-status" class="status off"></span>
+    </div>
+  </div>
 
-  <button class="stirrer-toggle" onclick="toggleStirrer()">Toggle Stirrer</button>
+  <div id="controls" class="tab-content">
+    <div id="pumps"></div>
+    <button onclick="toggleStirrer()">Toggle Stirrer</button>
+  </div>
 
-  <button class="mg-test" onclick="runMgTest()">Run Mg Test</button>
-
-  <div class="pump">
-    <label>Mg Test Status:</label>
-    <span id="mgtest-status" class="status off"></span>
+  <div id="measurements" class="tab-content">
+    <h3>Last 5 Test Results (Placeholder)</h3>
+    <p><strong>Alk:</strong> --, --, --, --, --</p>
+    <p><strong>Ca:</strong> --, --, --, --, --</p>
+    <p><strong>Mg:</strong> --, --, --, --, --</p>
   </div>
 
   <script>
     const pumpCount = 6;
 
-    function toggleTheme() {
-      document.body.classList.toggle("dark-mode");
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+      document.getElementById(tabId).classList.add('active');
     }
 
     function createPumpControl(index) {
@@ -104,6 +141,14 @@
       fetch("/mg_test", { method: "POST" });
     }
 
+    function runAlkTest() {
+      fetch("/alk_test", { method: "POST" });
+    }
+
+    function runCaTest() {
+      fetch("/ca_test", { method: "POST" });
+    }
+
     function fetchStatus() {
       fetch("/status")
         .then(res => res.json())
@@ -111,20 +156,13 @@
           for (let i = 0; i < pumpCount; i++) {
             updateStatus(i, data[i]);
           }
-          // Stirrer status (currently no light but logged)
-          console.log("Stirrer status: " + data[pumpCount]);
-          // Mg Test status
           updateMgTestStatus(data[pumpCount + 1]);
         });
     }
 
     function updateMgTestStatus(state) {
-      const mgTestStatusEl = document.getElementById("mgtest-status");
-      if (state === "running") {
-        mgTestStatusEl.style.backgroundColor = "blue";
-      } else {
-        mgTestStatusEl.style.backgroundColor = "red";
-      }
+      const el = document.getElementById("mgtest-status");
+      el.style.backgroundColor = state === "running" ? "blue" : "red";
     }
 
     window.onload = () => {
