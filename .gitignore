@@ -16,3 +16,16 @@ __pycache__/
 .vscode/
 .idea/
 
+Breadboard.py
+Hello World.py
+bluetest.py
+camera_test.py
+color.py
+gpio_cleanup.py
+livecam.py
+pump_server.py
+pump_server.py.save
+relaytest.py
+replace.txt
+test.jpg
+ngrok_url.txt
