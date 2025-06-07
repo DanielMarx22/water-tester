@@ -1,0 +1,18 @@
+# Don't track captured images
+captured_images/
+
+# Don't track log files
+*.log
+alk_log.txt
+
+# Don't track test files
+test_*.txt
+
+# Don't track Pi system files
+__pycache__/
+*.pyc
+
+# Optional: don't track IDE files
+.vscode/
+.idea/
+
