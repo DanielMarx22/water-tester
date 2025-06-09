@@ -8,27 +8,27 @@ The system consists of a Python Flask web application that provides a responsive
 
 Current Features:
 
-Responsive web-based dashboard with manual pump and stirrer controls
+1. Responsive web-based dashboard with manual pump and stirrer controls
 
-Automated alkalinity test (Alk Test)
+2. Automated alkalinity test (Alk Test)
 
-Pumps tank water into the test vial
+3. Pumps tank water into the test vial
 
-Adds reagent while stirring
+4. Adds reagent while stirring
 
-Captures image with PiCamera
+5. Captures image with PiCamera
 
-Analyzes color to determine alkalinity (dKH) using a calibration curve
+6. Analyzes color to determine alkalinity (dKH) using a calibration curve
 
-Logs and displays recent test results
+7. Logs and displays recent test results
 
-Magnesium test sequence partially implemented (no color analysis yet)
+8. Magnesium test sequence partially implemented (no color analysis yet)
 
-Vial cleaning cycle with programmable rinse and drain steps
+9. Vial cleaning cycle with programmable rinse and drain steps
 
-Emergency stop feature to halt all hardware operations instantly
+10. Emergency stop feature to halt all hardware operations instantly
 
-Test history display in the dashboard
+11. Test history display in the dashboard
 
 
 
@@ -36,13 +36,13 @@ Repository Structure:
 
 This GitHub repository contains a safe demonstration version of the project:
 
-demo_app.py: a demo-only version of the Flask app. This version is safe to run on any machine and does not control any physical hardware. It simulates the GUI experience and always returns a demo alkalinity value (7.5 dKH) for demonstration purposes.
+1. demo_app.py: a demo-only version of the Flask app. This version is safe to run on any machine and does not control any physical hardware. It simulates the GUI experience and always returns a demo alkalinity value (7.5 dKH) for demonstration purposes.
 
-dashboard.html: the main GUI dashboard used by both the live and demo applications.
+2. dashboard.html: the main GUI dashboard used by both the live and demo applications.
 
-README.md: this document.
+3. README.md: this document.
 
-.gitignore: configuration for files and folders excluded from version control.
+4. .gitignore: configuration for files and folders excluded from version control.
 
 
 
@@ -72,34 +72,26 @@ The dashboard will load, and you can interact with it as if it were connected to
 
 Live Deployment (Private)
 The full live version of this project runs on a Raspberry Pi and interfaces with:
-6 peristaltic pumps
-A magnetic stirrer
-A PiCamera for automated color detection
-Flask web server
-Ngrok tunnel for secure remote access via phone
+6 peristaltic pumps, 
+A magnetic stirrer, 
+A PiCamera for automated color detection, 
+Flask web server, 
+and an Ngrok tunnel for secure remote access via phone
 
 
 
 The live version is not included in this public repository to prevent unintended remote control of the hardware.
  
 
-Planned Future Enhancements
-Full implementation of Calcium and Magnesium tests
+Planned Future Enhancements:  
+1. Full implementation of Calcium and Magnesium tests
+2. Improved GUI with live test progress indicators and trends
+3. Integration with a smart power strip (similar to Neptune EB832) for controlling power to additional equipment
+4. Scheduled automatic testing (daily, weekly, etc.)
+5. Remote alerts and notifications
 
 
-Improved GUI with live test progress indicators and trends
-
-
-Integration with a smart power strip (similar to Neptune EB832) for controlling power to additional equipment
-
-
-Scheduled automatic testing (daily, weekly, etc.)
-
-
-Remote alerts and notifications
-
-
-Modular refactoring to allow easy integration of additional tests or sensors
+6. Modular refactoring to allow easy integration of additional tests or sensors
 
 
 Project Goals: 
