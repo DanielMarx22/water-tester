@@ -50,16 +50,10 @@ Flask
 Pillow (for image handling, though not required in demo mode)
 
 Running the Demo
-bash
-Copy
-Edit
+
 pip install flask pillow
 python3 demo_app.py
 Then open your browser and navigate to:
-
-cpp
-Copy
-Edit
 http://127.0.0.1:5055/
 The dashboard will load, and you can interact with it as if it were connected to hardware. Running an Alk Test will always display a simulated result of 7.5 dKH.
 
@@ -88,8 +82,6 @@ Integration with a smart power strip (similar to Neptune EB832) for controlling 
 Scheduled automatic testing (daily, weekly, etc.)
 
 Remote alerts and notifications
-
-Data export (CSV, JSON) for long-term analysis
 
 Modular refactoring to allow easy integration of additional tests or sensors
 
