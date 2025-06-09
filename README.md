@@ -80,7 +80,7 @@ Ngrok tunnel for secure remote access via phone
 
 
 The live version is not included in this public repository to prevent unintended remote control of the hardware.
-
+ 
 
 Planned Future Enhancements
 Full implementation of Calcium and Magnesium tests
