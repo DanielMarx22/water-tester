@@ -1,4 +1,5 @@
 Water Tester Project
+
 This is a custom-built, automated aquarium water testing system powered by a Raspberry Pi and inspired by the Neptune Systems Trident. The goal of this project is to create an open, affordable, and fully customizable platform for performing automated water tests (such as alkalinity, calcium, and magnesium) in a saltwater aquarium.
 
 The system consists of a Python Flask web application that provides a responsive dashboard for controlling the testing process and viewing results. The Raspberry Pi interfaces with peristaltic pumps, a magnetic stirrer, and a PiCamera to automate the full testing workflow.
