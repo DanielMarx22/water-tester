@@ -1,0 +1,33 @@
+# Don't track captured images
+captured_images/
+
+# Don't track log files
+*.log
+alk_log.txt
+
+# Don't track test files
+test_*.txt
+
+# Don't track Pi system files
+__pycache__/
+*.pyc
+
+# Optional: don't track IDE files
+.vscode/
+.idea/
+
+Breadboard.py
+Hello World.py
+bluetest.py
+camera_test.py
+color.py
+gpio_cleanup.py
+livecam.py
+pump_server.py
+pump_server.py.save
+relaytest.py
+replace.txt
+test.jpg
+ngrok_url.txt
+index.html
+start_remote.py
