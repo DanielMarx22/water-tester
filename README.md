@@ -49,18 +49,19 @@ README.md: this document.
 The live version of the Flask app (app.py), which controls physical hardware on the Raspberry Pi, is not included in this public repository for security and safety reasons.
 
 How to Use the Demo:
-
 Anyone cloning this repository can run the demo safely on their local machine.
 
-Prerequisites
+Prerequisites:
 Python 3.x
 Flask
 
 
+Installation Steps:
+1. Clone this repository
+2. Open a terminal and run "cd water-tester" to get to project folder
+3. Make sure python is installed and run "python -m pip install flask" to install flask
+4. Then run "python3 demo_app.py"
 
-Running the Demo
-
-python3 demo_app.py
 
 Then open your browser and navigate to:
 http://127.0.0.1:5055/
