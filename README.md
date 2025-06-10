@@ -61,7 +61,7 @@ Installation Steps:
 1. Clone this repository
 2. Open a terminal and run "cd water-tester" to get to project folder
 3. Make sure python is installed and run "python -m pip install flask" to install flask
-4. Then run "python3 demo_app.py"
+4. Then run "python demo_app.py"
 
 
 Then open your browser and navigate to:
@@ -100,5 +100,5 @@ This project aims to provide a fully open and customizable alternative to commer
 
 
 
-Disclaimer
+Disclaimer:
 This is a personal project and is not affiliated with or endorsed by Neptune Systems or any other commercial vendor. Use of this project and any connected hardware is at your own risk.
